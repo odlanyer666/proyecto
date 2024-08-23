@@ -6,10 +6,15 @@
 </head>
 <body>
 	<h1>P2P File Transfer</h1>
-	<input type="text" id="receiveCodeInput" placeholder="Ingrese el código de recepción">
-	<input type="file" id="fileInput">
-	<button id="sendButton">Enviar archivo</button>
-	<p id="code-display"></p>
+	<div id="send-container">
+		<input type="file" id="fileInput">
+		<button id="sendButton">Subir archivo</button>
+		<p id="code-display"></p>
+	</div>
+	<div id="receive-container">
+		<input type="text" id="receiveCodeInput" placeholder="Ingrese el código de recepción">
+		<button id="receiveButton">Recibir archivo</button>
+	</div>
 	<script src="script.js"></script>
 </body>
 </html>
