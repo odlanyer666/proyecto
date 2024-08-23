@@ -1,11 +1,15 @@
-// Obtener el input de archivo y el botón de envío
+// Obtener el input de archivo, el botón de envío, el input de código de recepción y el parágrafo de código de envío
 const fileInput = document.getElementById('fileInput');
 const sendButton = document.getElementById('sendButton');
+const receiveCodeInput = document.getElementById('receiveCodeInput');
 const codeDisplay = document.getElementById('code-display');
 
 // Generar un código aleatorio
 const code = generateCode();
+
+// Mostrar el código de envío en el parágrafo y el input de código de recepción
 codeDisplay.textContent = `Código de envío: ${code}`;
+receiveCodeInput.value = code;
 
 // Agregar evento de envío de archivo
 sendButton.addEventListener('click', () => {
@@ -17,9 +21,6 @@ sendButton.addEventListener('click', () => {
 		const peerConnection = new RTCPeerConnection();
 		const dataChannel = peerConnection.createDataChannel('fileTransfer');
 		dataChannel.send(event.target.result);
-		
-		// Enviar el código de envío al servidor de señalización
-		socket.emit('code', code);
 	};
 	fileReader.readAsArrayBuffer(file);
 });
