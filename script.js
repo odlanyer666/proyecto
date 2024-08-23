@@ -10,15 +10,25 @@ const receiveCodeInput = document.getElementById('receiveCodeInput');
 const receiveFileButton = document.getElementById('receiveFileButton');
 
 // Agregar evento de envío de archivo
-sendButton.addEventListener('click', () => {
-	sendContainer.style.display = 'block';
-	receiveContainer.style.display = 'none';
+sendFileButton.addEventListener('click', () => {
+  // Generar un código aleatorio
+  const code = generateCode();
+  codeDisplay.textContent = `Código de envío: ${code}`;
+  
+  // Leer el archivo seleccionado
+  const file = fileInput.files[0];
+  const fileReader = new FileReader();
+  fileReader.onload = event => {
+    // Enviar el archivo al servidor de señalización
+    socket.emit('sendFile', code, event.target.result);
+  };
+  fileReader.readAsArrayBuffer(file);
 });
 
 // Agregar evento de recepción de archivo
-receiveButton.addEventListener('click', () => {
-	receiveContainer.style.display = 'block';
-	sendContainer.style.display = 'none';
+receiveFileButton.addEventListener('click', () => {
+  const code = receiveCodeInput.value.trim();
+  socket.emit('receiveFile', code);
 });
 
 // Agregar evento de envío de archivo
