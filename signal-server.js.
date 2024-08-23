@@ -5,8 +5,15 @@ const io = require('(link unavailable)')(server);
 
 app.use(express.static('public'));
 
+let codes = {};
+
 io.on('connection', socket => {
 	console.log('Nuevo cliente conectado');
+
+	socket.on('code', code => {
+		console.log(`Código de envío recibido: ${code}`);
+		codes[code] = socket.id;
+	});
 
 	socket.on('offer', offer => {
 		console.log('Oferta recibida');
@@ -18,6 +25,16 @@ io.on('connection', socket => {
 		console.log('Respuesta recibida');
 		// Enviar la respuesta al otro peer
 		io.emit('answer', answer);
+	});
+
+	socket.on('receive', code => {
+		console.log(`Solicitud de recepción de archivo con código ${code}`);
+		if (codes[code]) {
+			const senderSocketId = codes[code];
+			io.to(senderSocketId).emit('startTransfer');
+		} else {
+			console.log('Código de envío no válido');
+		}
 	});
 });
 
