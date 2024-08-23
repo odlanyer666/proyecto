@@ -1,43 +1,47 @@
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-const io = require('(link unavailable)')(server);
+const io = require('socket.io')(server);
 
 app.use(express.static('public'));
 
 let codes = {};
 
 io.on('connection', socket => {
-	console.log('Nuevo cliente conectado');
+  console.log('Nuevo cliente conectado');
 
-	socket.on('code', code => {
-		console.log(`Código de envío recibido: ${code}`);
-		codes[code] = socket.id;
-	});
+  socket.on('code', code => {
+    console.log(`Código de envío recibido: ${code}`);
+    codes[code] = socket.id;
+  });
 
-	socket.on('receive', code => {
-		console.log(`Solicitud de recepción de archivo con código ${code}`);
-		if (codes[code]) {
-			const senderSocketId = codes[code];
-			io.to(senderSocketId).emit('startTransfer', socket.id);
-		} else {
-			console.log('Código de envío no válido');
-		}
-	});
+  socket.on('receive', code => {
+    console.log(`Solicitud de recepción de archivo con código ${code}`);
+    if (codes[code]) {
+      const senderSocketId = codes[code];
+      io.to(senderSocketId).emit('startTransfer', socket.id);
+    } else {
+      console.log('Código de envío no válido');
+    }
+  });
 
-	socket.on('startTransfer', receiverSocketId => {
-		console.log('Inicio de transferencia de archivo');
-		const peerConnection = new RTCPeerConnection();
-		const dataChannel = peerConnection.createDataChannel('fileTransfer');
-		
-		// Enviar el archivo al receptor
-		dataChannel.send(fileBuffer);
-		
-		// Enviar la señal de apertura del data channel al receptor
-		io.to(receiverSocketId).emit('dataChannelOpen');
-	});
+  socket.on('startTransfer', receiverSocketId => {
+    console.log('Inicio de transferencia de archivo');
+    const peerConnection = new RTCPeerConnection();
+    const dataChannel = peerConnection.createDataChannel('fileTransfer');
+
+    // Enviar la señal de apertura del data channel al receptor
+    io.to(receiverSocketId).emit('dataChannelOpen');
+
+    // Enviar el archivo al receptor
+    dataChannel.send(fileBuffer);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Cliente desconectado');
+  });
 });
 
 server.listen(3000, () => {
-	console.log('Servidor de señalización escuchando en el puerto 3000');
+  console.log('Servidor de señalización iniciado en http://localhost:3000');
 });
