@@ -1,12 +1,28 @@
 // Obtener los elementos del DOM
-const fileInput = document.getElementById('fileInput');
 const sendButton = document.getElementById('sendButton');
-const receiveCodeInput = document.getElementById('receiveCodeInput');
 const receiveButton = document.getElementById('receiveButton');
+const sendContainer = document.getElementById('send-container');
+const receiveContainer = document.getElementById('receive-container');
+const fileInput = document.getElementById('fileInput');
+const sendFileButton = document.getElementById('sendFileButton');
 const codeDisplay = document.getElementById('code-display');
+const receiveCodeInput = document.getElementById('receiveCodeInput');
+const receiveFileButton = document.getElementById('receiveFileButton');
 
 // Agregar evento de envío de archivo
 sendButton.addEventListener('click', () => {
+	sendContainer.style.display = 'block';
+	receiveContainer.style.display = 'none';
+});
+
+// Agregar evento de recepción de archivo
+receiveButton.addEventListener('click', () => {
+	receiveContainer.style.display = 'block';
+	sendContainer.style.display = 'none';
+});
+
+// Agregar evento de envío de archivo
+sendFileButton.addEventListener('click', () => {
 	// Generar un código aleatorio
 	const code = generateCode();
 	codeDisplay.textContent = `Código de envío: ${code}`;
@@ -20,17 +36,22 @@ sendButton.addEventListener('click', () => {
 		const dataChannel = peerConnection.createDataChannel('fileTransfer');
 		dataChannel.send(event.target.result);
 		
-		// Enviar el código de envío al servidor de señalización
+		// Enviar el código de envío al servidor de señaligen
 		socket.emit('code', code);
 	};
 	fileReader.readAsArrayBuffer(file);
 });
 
 // Agregar evento de recepción de archivo
-receiveButton.addEventListener('click', () => {
+receiveFileButton.addEventListener('click', () => {
 	const code = receiveCodeInput.value.trim();
 	socket.emit('receive', code);
 });
+
+// Función para generar un código aleatorio
+function generateCode() {
+	return Math.random().toString(36).substr(2, 6);
+}
 
 // Agregar evento de recepción de archivo desde el servidor
 socket.on('startTransfer', () => {
@@ -62,7 +83,4 @@ socket.on('startTransfer', () => {
 	dataChannel.onclose = () => {
 		console.log('Data channel cerrado');
 	};
-function generateCode() {
-	return Math.random().toString(36).substr(2, 6);
-}
 });
