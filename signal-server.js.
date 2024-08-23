@@ -10,22 +10,23 @@ let codes = {};
 io.on('connection', socket => {
   console.log('Nuevo cliente conectado');
 
-  socket.on('code', code => {
-    console.log(`Código de envío recibido: ${code}`);
-    codes[code] = socket.id;
+  socket.on('sendFile', (code, fileBuffer) => {
+    console.log(`Archivo recibido para código ${code}`);
+    codes[code] = { fileBuffer, socketId: socket.id };
   });
 
-  socket.on('receive', code => {
+  socket.on('receiveFile', code => {
     console.log(`Solicitud de recepción de archivo con código ${code}`);
     if (codes[code]) {
-      const senderSocketId = codes[code];
-      io.to(senderSocketId).emit('startTransfer', socket.id);
+      const senderSocketId = codes[code].socketId;
+      const fileBuffer = codes[code].fileBuffer;
+      io.to(senderSocketId).emit('startTransfer', socket.id, fileBuffer);
     } else {
       console.log('Código de envío no válido');
     }
   });
 
-  socket.on('startTransfer', receiverSocketId => {
+ socket.on('startTransfer', (receiverSocketId, fileBuffer) => {
     console.log('Inicio de transferencia de archivo');
     const peerConnection = new RTCPeerConnection();
     const dataChannel = peerConnection.createDataChannel('fileTransfer');
@@ -35,8 +36,32 @@ io.on('connection', socket => {
 
     // Enviar el archivo al receptor
     dataChannel.send(fileBuffer);
-  });
 
+    // Cerrar la conexión cuando se complete la transferencia
+    dataChannel.onclose = () => {
+      peerConnection.close();
+    };
+  });
+socket.on('dataChannelOpen', () => {
+  console.log('Data channel abierto');
+  const peerConnection = new RTCPeerConnection();
+  const dataChannel = peerConnection.createDataChannel('fileTransfer');
+
+  dataChannel.onmessage = event => {
+    const fileBuffer = new Uint8Array(event.data);
+    const file = new Blob([fileBuffer], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(file);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'received_file.txt'; // Cambiar el nombre del archivo según sea necesario
+    a.click();
+  };
+
+  dataChannel.onclose = () => {
+    console.log('Data channel cerrado');
+    peerConnection.close();
+  };
+});
   socket.on('disconnect', () => {
     console.log('Cliente desconectado');
   });
