@@ -19,15 +19,22 @@ io.on('connection', socket => {
 		console.log(`Solicitud de recepción de archivo con código ${code}`);
 		if (codes[code]) {
 			const senderSocketId = codes[code];
-			io.to(senderSocketId).emit('startTransfer');
+			io.to(senderSocketId).emit('startTransfer', socket.id);
 		} else {
 			console.log('Código de envío no válido');
 		}
 	});
 
-	socket.on('startTransfer', () => {
+	socket.on('startTransfer', receiverSocketId => {
 		console.log('Inicio de transferencia de archivo');
-		// Aquí puedes agregar la lógica para recibir el archivo
+		const peerConnection = new RTCPeerConnection();
+		const dataChannel = peerConnection.createDataChannel('fileTransfer');
+		
+		// Enviar el archivo al receptor
+		dataChannel.send(fileBuffer);
+		
+		// Enviar la señal de apertura del data channel al receptor
+		io.to(receiverSocketId).emit('dataChannelOpen');
 	});
 });
 
