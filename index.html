@@ -137,26 +137,5 @@
             <li><a href="https://discord.gg/fgKE5QFK">Discord</a></li>
         </ul>
     </footer>
-
-  <!-- Reproductor de audio al pasar el mouse -->
-  <h2>Mi audio</h2>
-  <div id="audio-area" style="width: 200px; height: 80px; border: 2px dashed #555; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-    Pasa el mouse aquí
-  </div>
-  <audio id="hoverAudio" src="audio/presentacion.mp3"></audio>
-  <script>
-    const area = document.getElementById('audio-area');
-    const audio = document.getElementById('hoverAudio');
-
-    area.addEventListener('mouseenter', () => {
-      audio.currentTime = 0;
-      audio.play();
-    });
-
-    area.addEventListener('mouseleave', () => {
-      audio.pause();
-      audio.currentTime = 0;
-    });
-  </script>
 </body>
 </html>
