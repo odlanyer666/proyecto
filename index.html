@@ -1,13 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-	<title>P2P File Transfer</title>
-	<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio Web Personal</title>
 </head>
 <body>
-	<h1>P2P File Transfer</h1>
-	<input type="file" id="fileInput">
-	<button id="sendButton">Enviar archivo</button>
-	<script src="script.js"></script>
+    <!-- ======================== HEADER ======================== -->
+    <header>
+        <h1>Reynaldo Antonio Flores Gavilanez</h1> <!-- Nombre completo -->
+        <p><em>Estudiante de Ingeniería en Sistemas | Apasionado por la tecnología</em></p> <!-- Subtítulo -->
+
+        <!-- Imagen personal -->
+        <img src="https://drive.google.com/uc?export=view&id=1eW8tWJW1W-ajxkNeheehPkUCY2oo7Y78" alt="Foto de Reynaldo" width="150">
+    </header>
+
+    <!-- ======================== MENÚ DE NAVEGACIÓN ======================== -->
+    <nav>
+        <!-- Enlaces internos -->
+        <a href="#sobremi">Sobre mí</a> |
+        <a href="#intereses">Intereses</a> |
+        <a href="#habilidades">Habilidades</a> |
+        <a href="#multimedia">Multimedia</a> |
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <!-- ======================== SOBRE MÍ ======================== -->
+    <section id="sobremi">
+        <h2>Sobre mí</h2>
+        <p>
+            Soy una persona <strong>curiosa</strong> pero poco creativa, y reconozco que no soy bueno con las palabras ni con las relaciones personales. Aun así, siempre intento ayudar cuando puedo. Considero que tengo <mark>mucha suerte</mark>, porque aunque a veces las cosas se me queman o explotan, sigo adelante aprendiendo.
+            No soy bueno memorizando, pero tengo buena habilidad en la <strong>lógica abstracta</strong>. Además, soy hábil encontrando soluciones y tengo buena comprensión de los problemas.
+        </p>
+    </section>
+
+    <!-- ======================== LISTA DE INTERESES ======================== -->
+    <section id="intereses">
+        <h2>Mis intereses</h2>
+        <ol>
+            <li>💻 Programación y desarrollo web</li>
+            <li>🔧 Electrónica y reparación de equipos</li>
+            <li>📡 Redes y seguridad informática</li>
+            <li>🤖 Inteligencia Artificial</li>
+        </ol>
+    </section>
+
+    <!-- ======================== TABLA DE HABILIDADES ======================== -->
+    <section id="habilidades">
+        <h2>Habilidades Técnicas</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Habilidad</th>
+                    <th>Nivel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>HTML</td><td>Básico</td></tr>
+                <tr><td>Java</td><td>Básico</td></tr>
+                <tr><td>Reparación electrónica</td><td>Intermedio</td></tr>
+                <tr><td>Redes</td><td>Básico</td></tr>
+                <tr><td>Linux</td><td>Básico</td></tr>
+                <tr><td>Ofimática</td><td>Intermedio</td></tr>
+                <tr><td>Montaje de PCs</td><td>Intermedio</td></tr>
+                <tr><td>Matemática / Lógica matemática</td><td>Intermedio</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ======================== MULTIMEDIA ======================== -->
+    <section id="multimedia">
+        <h2>Presentación en Audio/Video</h2>
+
+        <!-- Cambiar el src por un archivo real si desea -->
+        <audio controls>
+            <source src="/audio/presentacion.mp4" type="audio/mpeg">
+            Tu navegador no soporta audio.
+        </audio>
+
+    </section>
+
+    <!-- ======================== FORMULARIO ======================== -->
+    <section id="contacto">
+        <h2>Formulario de Contacto</h2>
+        <form>
+            <!-- Nombre obligatorio -->
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required><br><br>
+
+            <!-- Correo con validación -->
+            <label>Correo:</label>
+            <input type="email" name="correo" required><br><br>
+
+            <!-- Edad con mínimo -->
+            <label>Edad:</label>
+            <input type="number" name="edad" min="1" required><br><br>
+
+            <!-- Género opción B -->
+            <label>Género:</label>
+            <select name="genero" required>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+                <option value="nodice">Prefiero no decirlo</option>
+            </select><br><br>
+
+            <!-- Intereses con checkbox (opción B) -->
+            <label>Intereses:</label><br>
+            <input type="checkbox" name="interes" value="programacion"> Programación<br>
+            <input type="checkbox" name="interes" value="electronica"> Electrónica<br>
+            <input type="checkbox" name="interes" value="redes"> Redes<br>
+            <input type="checkbox" name="interes" value="ia"> Inteligencia Artificial<br>
+            <input type="checkbox" name="interes" value="matematicas"> Matemáticas<br>
+            <input type="checkbox" name="interes" value="videojuegos"> Videojuegos<br>
+            <input type="checkbox" name="interes" value="musica"> Música<br>
+            <input type="checkbox" name="interes" value="estudio"> Estudio<br><br>
+
+            <!-- Comentarios -->
+            <label>Comentarios:</label><br>
+            <textarea name="comentarios" rows="4" cols="40"></textarea><br><br>
+
+            <!-- Botón -->
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <!-- ======================== PIE DE PÁGINA ======================== -->
+    <footer>
+        <p>© 2025 Reynaldo Antonio Flores Gavilanez. Todos los derechos reservados.</p>
+        <p>Sígueme en mis redes:</p>
+        <ul>
+            <li><a href="https://github.com/odlanyer666">GitHub</a></li>
+            <li><a href="https://x.com/Reynald41863995">Twitter / X</a></li>
+            <li><a href="https://www.facebook.com/share/1AA6EQ9CrN/">Facebook</a></li>
+            <li><a href="https://www.instagram.com/reynaldo_flores_antonio?igsh=andydDk5dHZsb2o2">Instagram</a></li>
+            <li><a href="https://discord.gg/fgKE5QFK">Discord</a></li>
+        </ul>
+    </footer>
+
+  <!-- Reproductor de audio al pasar el mouse -->
+  <h2>Mi audio</h2>
+  <div id="audio-area" style="width: 200px; height: 80px; border: 2px dashed #555; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+    Pasa el mouse aquí
+  </div>
+  <audio id="hoverAudio" src="AUDIO_AQUI.mp3"></audio>
+  <script>
+    const area = document.getElementById('audio-area');
+    const audio = document.getElementById('hoverAudio');
+
+    area.addEventListener('mouseenter', () => {
+      audio.currentTime = 0;
+      audio.play();
+    });
+
+    area.addEventListener('mouseleave', () => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+  </script>
 </body>
 </html>
